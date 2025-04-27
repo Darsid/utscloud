@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chisagi Preloved</title>
+  <!-- Import Poppins font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 32px;
+      background-color: #ff9800;
+      padding: 15px 0;
+      color: white;
+      margin-top: 0;
+      font-weight: 600;
+    }
+
+    #data-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 300px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 280px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      padding: 10px;
+      background: #ffffff;
+    }
+
+    .product-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-name {
+      font-weight: 500;
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .product-price {
+      font-weight: 600;
+      font-size: 20px;
+      color: #ff9800;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #888;
+      font-size: 14px;
+      padding: 10px;
+      font-weight: 300;
+    }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 300px;
+      text-align: center;
+    }
+
+    .loading-spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #ff9800;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    .loading-text {
+      font-size: 18px;
+      color: #666;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Chisagi Preloved</h1>
+  <div id="data-container">
+    <!-- Initial loading state -->
+    <div class="loading">
+      <div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading products...</div>
+      </div>
+    </div>
+  </div>
+  <footer>© 2025 Chisagi Preloved. All rights reserved.</footer>
+
+  <script>
+    // Sample data
+    const sampleData = [
+      {
+        name: "Tribbie",
+        price: 50000,
+        image_url: "https://dapabucket.s3.ap-southeast-1.amazonaws.com/pp+discord.png"
+      },
+      {
+        name: "Lukisan",
+        price: 25000,
+        image_url: "https://dapabucket.s3.ap-southeast-1.amazonaws.com/Dark+Blue+Elegant+Abstract+Painting+Motivational+Quote+Desktop+Wallpaper.jpg"
+      },
+      {
+        name: "Manusia",
+        price: 1000,
+        image_url: "https://dapabucket.s3.ap-southeast-1.amazonaws.com/WIN_20241214_15_33_12_Pro.jpg"
+      },
+      {
+        name: "Orang",
+        price: 65000,
+        image_url: "https://dapabucket.s3.ap-southeast-1.amazonaws.com/WIN_20250314_08_31_04_Pro.jpg"
+      }
+    ];
+
+    // Function to render products
+    function renderProducts(data) {
+      const container = document.getElementById('data-container');
+      container.innerHTML = ''; // Clear container
+      
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        
+        // Create product image
+        const img = document.createElement('img');
+        img.src = item.image_url;
+        img.alt = item.name;
+        img.className = 'product-image';
+        card.appendChild(img);
+        
+        // Create product info container
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'product-info';
+        
+        // Create product name
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'product-name';
+        nameDiv.textContent = item.name;
+        infoDiv.appendChild(nameDiv);
+        
+        // Create product price
+        const priceDiv = document.createElement('div');
+        priceDiv.className = 'product-price';
+        priceDiv.textContent = `Rp ${item.price.toLocaleString()}`;
+        infoDiv.appendChild(priceDiv);
+        
+        card.appendChild(infoDiv);
+        container.appendChild(card);
+      });
+    }
+
+    // Immediately attempt to fetch data
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set a timeout for the API fetch
+      const apiTimeout = setTimeout(() => {
+        console.log("API fetch timed out, using sample data");
+        renderProducts(sampleData);
+      }, 2000); // Wait only 2 seconds before showing sample data
+      
+      // Try to fetch from API
+      fetch('http://13.239.226.90:3000/data')
+        .then(response => {
+          clearTimeout(apiTimeout); // Clear the timeout if we get a response
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          renderProducts(data);
+        })
+        .catch(error => {
+          clearTimeout(apiTimeout); // Clear the timeout if we get an error
+          console.error('Error fetching data:', error);
+          // Use sample data if API fails
+          renderProducts(sampleData);
+        });
+    });
+  </script>
+</body>
+</html>
