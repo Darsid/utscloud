@@ -201,7 +201,7 @@
       }, 2000); // Wait only 2 seconds before showing sample data
       
       // Try to fetch from API
-      fetch('http://13.239.226.90:3000/data')
+      fetch('http://13.239.226.90/data')
         .then(response => {
           clearTimeout(apiTimeout); // Clear the timeout if we get a response
           if (!response.ok) {
