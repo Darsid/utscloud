@@ -23,7 +23,7 @@ db.connect((err) => {
 
 // Endpoint untuk mengambil data dari database
 app.get('/data', (req, res) => {
-  const query = 'SELECT * FROM products'; // Ganti dengan query yang sesuai
+  const query = 'SELECT * FROM katalog'; // Ganti dengan query yang sesuai
   db.query(query, (err, results) => {
     if (err) throw err;
     res.json(results);
@@ -31,5 +31,5 @@ app.get('/data', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at http://13.239.226.90:${port}`);
 });

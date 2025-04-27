@@ -34,7 +34,7 @@ jobs:
         
           echo "SSH to Backend Instance..."
           ssh -i ~/S99.pem ec2-user@10.0.1.41 << 'INNER_EOF'
-            cd CloudComputingWebServer/BackEnd
+            cd BackEnd
             sudo git reset --hard HEAD
             sudo git clean -fd
             sudo yum install git -y
